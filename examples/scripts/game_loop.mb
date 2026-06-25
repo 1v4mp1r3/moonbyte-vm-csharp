@@ -1,0 +1,5 @@
+let actor = { name: "orb", speed: 2 };
+print("tick " + tick + " actor=" + actor.name);
+spawn(actor.name, tick * actor.speed, 4);
+move(actor.name, actor.speed, 1);
+

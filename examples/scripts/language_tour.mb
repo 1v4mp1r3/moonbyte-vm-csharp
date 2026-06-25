@@ -1,0 +1,11 @@
+let answer = 40 + 2;
+print("answer=" + answer);
+
+fn add(a, b) {
+  return a + b;
+}
+
+let player = { name: "pilot", hp: 100 };
+print(player.name + " hp=" + player.hp);
+print("add=" + add(7, 8));
+

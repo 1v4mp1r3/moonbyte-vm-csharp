@@ -1,0 +1,36 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.0
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Build CLI
+        run: dotnet build src/MoonByte.Cli/MoonByte.Cli.csproj -c Release
+
+      - name: Build embedding demo
+        run: dotnet build examples/EmbeddingDemo/EmbeddingDemo.csproj -c Release
+
+      - name: Run test suite
+        run: dotnet run --project tests/MoonByte.Tests/MoonByte.Tests.csproj -c Release
+
+      - name: Script smoke test
+        run: dotnet run --project src/MoonByte.Cli/MoonByte.Cli.csproj -c Release -- run examples/scripts/language_tour.mb
+
+      - name: Embedding smoke test
+        run: dotnet run --project examples/EmbeddingDemo/EmbeddingDemo.csproj -c Release
+
+      - name: Benchmark smoke test
+        run: dotnet run --project src/MoonByte.Cli/MoonByte.Cli.csproj -c Release -- bench examples/scripts/language_tour.mb 25
+
